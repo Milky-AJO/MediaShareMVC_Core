@@ -5,6 +5,7 @@
     <CopyRefAssembliesToPublishDirectory>false</CopyRefAssembliesToPublishDirectory>
     <UserSecretsId>5f891377-aaac-4890-80de-f4b5431e47d0</UserSecretsId>
     <DockerDefaultTargetOS>Windows</DockerDefaultTargetOS>
+    <ApplicationIcon>Iconimage.ico</ApplicationIcon>
   </PropertyGroup>
 
   <ItemGroup>
