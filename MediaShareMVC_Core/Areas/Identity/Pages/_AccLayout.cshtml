@@ -30,5 +30,18 @@
 </div>
 
 @section Scripts{
-   @RenderSection("Scripts", required: false) 
+    @RenderSection("Scripts", required: false) 
+    
+    <script>
+        $(function() {
+            var current = location.pathname;
+            $('.nav-tabs li a').ForEachCallback(function() {
+                var $this = $(this);
+                if (current.indexOf($this.Attr('href')) !== -1) {
+                    $this.addClass('active');
+                }
+            })
+        })
+    </script>
+
 }

@@ -20,7 +20,7 @@ namespace MediaShareMVC_Core.Areas.Identity
                     options.UseSqlServer(
                         context.Configuration.GetConnectionString("MediaShareDbContextConnection")));
 
-                services.AddDefaultIdentity<WebAppUser>(options => options.SignIn.RequireConfirmedAccount = true)
+                services.AddDefaultIdentity<WebAppUser>(options => options.SignIn.RequireConfirmedAccount = false)
                     .AddEntityFrameworkStores<MediaShareDbContext>();
             });
         }
