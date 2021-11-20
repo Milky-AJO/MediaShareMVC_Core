@@ -8,6 +8,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using MediaShareMVC_Core.Data;
+using Microsoft.EntityFrameworkCore;
 
 namespace MediaShareMVC_Core
 {
@@ -25,6 +27,9 @@ namespace MediaShareMVC_Core
         {
             services.AddControllersWithViews();
             services.AddRazorPages();
+
+            services.AddDbContext<MediaShareDbContext>(options =>
+                options.UseSqlServer(Configuration.GetConnectionString("MediaShareDbContextConnection")));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

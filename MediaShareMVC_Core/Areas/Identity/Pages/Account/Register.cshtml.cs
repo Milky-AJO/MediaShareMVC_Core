@@ -47,11 +47,13 @@ namespace MediaShareMVC_Core.Areas.Identity.Pages.Account
         public class InputModel
         {
             [Required]
+            [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 1)]
             [DataType(DataType.Text)]
             [Display(Name = "First Name")]
             public string FName { get; set; }
 
             [Required]
+            [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 1)]
             [DataType(DataType.Text)]
             [Display(Name = "Last Name")]
             public string LName { get; set; }
