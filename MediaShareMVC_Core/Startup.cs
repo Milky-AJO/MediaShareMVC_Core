@@ -28,8 +28,11 @@ namespace MediaShareMVC_Core
             services.AddControllersWithViews();
             services.AddRazorPages();
 
-            services.AddDbContext<MediaShareDbContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("MediaShareDbContextConnection")));
+            services.AddDbContext<MediaShareMVC_CoreContext>(options =>
+                    options.UseSqlServer(Configuration.GetConnectionString("MediaShareMVC_CoreContext")));
+
+            //services.AddDbContext<MediaShareDbContext>(options =>
+            //    options.UseSqlServer(Configuration.GetConnectionString("MediaShareDbContextConnection")));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

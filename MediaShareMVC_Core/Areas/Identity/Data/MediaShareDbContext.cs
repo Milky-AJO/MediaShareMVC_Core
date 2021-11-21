@@ -17,7 +17,7 @@ namespace MediaShareMVC_Core.Data
         {
         }
 
-        public DbSet<MediaItemModel> Media { get; set; }
+        public DbSet<Media> Media { get; set; }
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);

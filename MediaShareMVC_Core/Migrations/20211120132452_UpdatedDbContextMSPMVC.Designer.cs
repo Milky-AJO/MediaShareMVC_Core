@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MediaShareMVC_Core.Migrations
 {
     [DbContext(typeof(MediaShareDbContext))]
-    [Migration("20211120101529_ImagesContext")]
-    partial class ImagesContext
+    [Migration("20211120132452_UpdatedDbContextMSPMVC")]
+    partial class UpdatedDbContextMSPMVC
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -98,6 +98,9 @@ namespace MediaShareMVC_Core.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Email")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("MediaName")
                         .HasColumnType("nvarchar(100)");

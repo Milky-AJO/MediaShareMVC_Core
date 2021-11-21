@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MediaShareMVC_Core.Migrations
 {
     [DbContext(typeof(MediaShareDbContext))]
-    [Migration("20211120101529_ImagesContext")]
-    partial class ImagesContext
+    [Migration("20211120133431_TextingMigration")]
+    partial class TextingMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -90,28 +90,6 @@ namespace MediaShareMVC_Core.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers");
-                });
-
-            modelBuilder.Entity("MediaShareMVC_Core.Models.Media", b =>
-                {
-                    b.Property<int>("MediaId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("MediaName")
-                        .HasColumnType("nvarchar(100)");
-
-                    b.Property<string>("MediaPublic")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(10)");
-
-                    b.Property<string>("MediaTitle")
-                        .HasColumnType("nvarchar(50)");
-
-                    b.HasKey("MediaId");
-
-                    b.ToTable("Media");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>

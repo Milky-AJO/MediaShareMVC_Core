@@ -1,4 +1,5 @@
-﻿
+﻿@model IEnumerable<MediaShareMVC_Core.Models.Media>
+
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -6,3 +7,48 @@
 
 <h1>Index</h1>
 
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.MediaTitle)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.MediaName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Email)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.MediaPublic)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.MediaTitle)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MediaName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Email)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MediaPublic)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.MediaId">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.MediaId">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.MediaId">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

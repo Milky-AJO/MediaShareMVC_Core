@@ -90,7 +90,7 @@ namespace MediaShareMVC_Core.Migrations
                     b.ToTable("AspNetUsers");
                 });
 
-            modelBuilder.Entity("MediaShareMVC_Core.Models.MediaItemModel", b =>
+            modelBuilder.Entity("MediaShareMVC_Core.Models.Media", b =>
                 {
                     b.Property<int>("MediaId")
                         .ValueGeneratedOnAdd()
