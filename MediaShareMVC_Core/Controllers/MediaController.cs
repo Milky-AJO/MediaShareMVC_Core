@@ -13,11 +13,12 @@ using MediaShareMVC_Core.Data;
 using MediaShareMVC_Core.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.Data.SqlClient;
 using Microsoft.IdentityModel.Protocols;
 
 namespace MediaShareMVC_Core.Controllers
 {
-    [Authorize]
+    //[Authorize]
     public class MediaController : Controller
     {
         private readonly MediaShareMVC_CoreContext _context;
@@ -35,7 +36,33 @@ namespace MediaShareMVC_Core.Controllers
         // GET: Medias
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Media.ToListAsync());
+            string userEmail = HttpContext.User.Identity.Name;
+
+            List<Media> MyImages = new List<Media>();
+            string connString = "Server=awsmediasharedb.cijc6laeupag.us-east-2.rds.amazonaws.com,1433;Integrated Security=False;Persist Security Info=True;User ID=admin;Password=#Cmpg323;Database=MediaShareMVC_Core;Trusted_Connection=False;MultipleActiveResultSets=true";
+            using (SqlConnection Conn = new SqlConnection(connString))
+            {
+                Conn.Open();
+                SqlCommand sqlCom = new SqlCommand("SELECT MediaId ,MediaTitle, MediaName, Email ,MediaPublic FROM Media WHERE Email='" + userEmail + "'", Conn);
+                SqlDataReader reader = sqlCom.ExecuteReader();
+
+                while (reader.Read())
+                {
+                    Media thisImage = new Media();
+                    thisImage.MediaId = (int)reader["MediaId"];
+                    thisImage.MediaTitle = (string)reader["MediaTitle"];
+                    thisImage.MediaName = (string)reader["MediaName"];
+                    thisImage.Email = (string)reader["Email"];
+                    thisImage.MediaPublic = Convert.ToBoolean(Convert.ToInt32(reader["MediaPublic"]));
+                    MyImages.Add(thisImage);
+                }
+
+                Conn.Close();
+            }
+
+            //return View(await _context.Media.ToListAsync());
+            await _context.SaveChangesAsync();
+            return View(MyImages);
         }
 
         // GET: Medias/Details/5

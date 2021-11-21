@@ -32,6 +32,9 @@ namespace MediaShareMVC_Core
             services.AddDbContext<MediaShareMVC_CoreContext>(options =>
                     options.UseSqlServer(Configuration.GetConnectionString("MediaShareMVC_CoreContext")));
 
+            services.AddDbContext<MediaShareContextAnotherOne>(options =>
+                    options.UseSqlServer(Configuration.GetConnectionString("MediaShareContextAnotherOne")));
+
             //services.AddDbContext<MediaShareDbContext>(options =>
             //    options.UseSqlServer(Configuration.GetConnectionString("MediaShareDbContextConnection")));
         }
