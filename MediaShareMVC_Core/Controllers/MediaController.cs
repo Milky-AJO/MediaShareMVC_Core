@@ -3,19 +3,28 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Amazon.Runtime;
+using Amazon.S3;
+using Amazon.S3.Model;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using MediaShareMVC_Core.Data;
 using MediaShareMVC_Core.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.IdentityModel.Protocols;
 
 namespace MediaShareMVC_Core.Controllers
 {
+    [Authorize]
     public class MediaController : Controller
     {
         private readonly MediaShareMVC_CoreContext _context;
         private readonly IWebHostEnvironment _hostEnvironment;
+
+        private static readonly string bucketName = "awscoremvcap-co1ww7khrdzzoyfbf13jx1bjfc91wuse2a-s3alias";
+        //awscoremvc
 
         public MediaController(MediaShareMVC_CoreContext context, IWebHostEnvironment hostEnvironment)
         {
@@ -60,13 +69,20 @@ namespace MediaShareMVC_Core.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("MediaId,MediaTitle,MediaFile,Email,MediaPublic")] Media Media)
         {
+            var s3Client = new AmazonS3Client("AKIARC6VCC5JCWYLCANP", "tr3wtrmS2Jbshv3TVkA9CSXuDpRTq9Lhb87iTZVz", Amazon.RegionEndpoint.USEast2);
+
             if (ModelState.IsValid)
             {
                 string wwwRootPath = _hostEnvironment.WebRootPath;
                 string fileName = Path.GetFileNameWithoutExtension(Media.MediaFile.FileName);
                 string fileExtension = Path.GetExtension(Media.MediaFile.FileName);
-                Media.MediaName = fileName = fileName + DateTime.Now.ToString("yymmssfff") + fileExtension;
+                fileName = fileName + DateTime.Now.ToString("yymmssfff") + fileExtension;
                 string path = Path.Combine(wwwRootPath + "/Image/", fileName);
+
+                Media.MediaName = fileName;
+
+
+
                 using (var fileStream = new FileStream(path,FileMode.Create))
                 {
                     await Media.MediaFile.CopyToAsync(fileStream);
@@ -74,6 +90,25 @@ namespace MediaShareMVC_Core.Controllers
 
                 _context.Add(Media);
                 await _context.SaveChangesAsync();
+
+                PutObjectRequest putRequest = new PutObjectRequest
+                {
+                    
+                    BucketName = bucketName,
+                    Key = fileName,
+                    FilePath = path,
+                    ContentType = "text/plain"
+                };
+
+                PutObjectResponse response = await s3Client.PutObjectAsync(putRequest);
+
+                if (System.IO.File.Exists(path))
+                {
+
+                    System.IO.File.Delete(path);
+
+                }
+
                 return RedirectToAction(nameof(Index));
             }
             return View(Media);
