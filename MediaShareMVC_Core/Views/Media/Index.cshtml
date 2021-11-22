@@ -5,11 +5,18 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>personal board</h1>
+<div class="card border-primary mb-3" style="max-width: 20rem;">
+    <div class="card-header">Welcome ◕⩊◕ </div>
+    <div class="card-body">
+        <h4 class="card-title">This is your Personal Board.</h4>
+        <p class="card-text">You can see all your posts, edit them, delete them or create another one.</p>
+    </div>
+</div>
 
-<p class="text-primary">>
-    <a asp-action="Create">Create New</a>
-</p>
+<button type="button" class="btn btn-outline-dark"><p style="color: black; font-size: 18px"><a asp-action="Create"> >New Post👾💾</a></p></button>
+<br>
+<br>
+
 @*<table class="table">
     <thead>
     <tr>
