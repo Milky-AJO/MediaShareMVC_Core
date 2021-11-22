@@ -1,8 +1,48 @@
-﻿@{
+﻿@model IEnumerable<MediaShareMVC_Core.Models.Media>
+
+@{
     ViewData["Title"] = "Home Page";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+@using (Html.BeginForm("Index", "Home", FormMethod.Get))
+{
+    //<form class="d-flex">
+    <input class="form-control me-sm-2" type="text" name="Search" placeholder="Search">
+    <br>
+    <button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
+    //</form>
+}
+
+
+<br>
+<div class="card border-dark mb-3" style="max-width: 20rem;">
+    <div class="card-header">Welcome ʕっ•ᴥ•ʔっ </div>
+    <div class="card-body">
+        <h4 class="card-title">This is the Public Board.</h4>
+        <p class="card-text">You can browse all the public post and search for specific ones by its name or who posted it.</p>
+    </div>
 </div>
+
+@foreach (var item in Model)
+{
+    <div class="card" style="width: 38rem;">
+        <h3 class="card-header">@Html.DisplayFor(modelItem => item.MediaTitle)</h3>
+        <img class="card-img-top" src="@Url.Content("https://awscoremvc.s3.us-east-2.amazonaws.com/Images/" + item.MediaName)" alt="Card image cap">
+        <div class="card-body">
+            <p class="card-text">Posted by @Html.DisplayFor(modelItem => item.Email)</p>
+        </div>
+        @*<ul class="list-group list-group-flush">
+            <li class="list-group-item"><a asp-action="Edit" asp-route-id="@item.MediaId">Edit</a></li>
+        </ul>*@
+        @*<div>
+                <a asp-action="Edit" asp-route-id="@item.MediaId">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.MediaId">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.MediaId">Delete</a>
+            </div>*@
+        <div class="card-footer text-muted">
+            👾 Public Image 💾
+        </div>
+    </div>
+    <br>
+}

@@ -5,16 +5,17 @@
     "framework"     : "net5.0",
     "self-contained" : false,
     "application"    : "MediaShareMVCCore",
-    "environment"    : "MediaShareMVCCore-test",
+    "environment"    : "MediaShareMVCCore-prod",
+    "app-path"       : "/",
+    "iis-website"    : "Default Web Site",
     "enable-xray"    : false,
     "enhanced-health-type" : "basic",
-    "additional-options"   : "",
-    "solution-stack"       : "64bit Amazon Linux 2 v2.2.8 running .NET Core",
+    "additional-options"   : "\"aws:autoscaling:launchconfiguration,SecurityGroups\"=\"sg-0a82ebcf4358b5171\";\"aws:ec2:vpc,Subnets\"=\"subnet-04f5578ffb0aca8ce\"",
+    "solution-stack"       : "64bit Windows Server Core 2019 v2.7.2 running IIS 10.0",
     "environment-type"     : "SingleInstance",
-    "cname"                : "mediasharemvccore-test",
+    "cname"                : "tmsp",
     "instance-type"        : "t2.micro",
     "key-pair"             : "",
     "instance-profile"     : "aws-elasticbeanstalk-ec2-role",
-    "service-role"         : "aws-elasticbeanstalk-service-role",
-    "proxy-server"         : "nginx"
+    "service-role"         : "aws-elasticbeanstalk-service-role"
 }

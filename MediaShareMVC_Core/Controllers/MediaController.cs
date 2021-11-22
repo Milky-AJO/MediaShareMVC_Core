@@ -34,32 +34,59 @@ namespace MediaShareMVC_Core.Controllers
         }
 
         // GET: Medias
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string Search)
         {
             string userEmail = HttpContext.User.Identity.Name;
-
             List<Media> MyImages = new List<Media>();
-            string connString = "Server=awsmediasharedb.cijc6laeupag.us-east-2.rds.amazonaws.com,1433;Integrated Security=False;Persist Security Info=True;User ID=admin;Password=#Cmpg323;Database=MediaShareMVC_Core;Trusted_Connection=False;MultipleActiveResultSets=true";
-            using (SqlConnection Conn = new SqlConnection(connString))
+            if (Search == null)
             {
-                Conn.Open();
-                SqlCommand sqlCom = new SqlCommand("SELECT MediaId ,MediaTitle, MediaName, Email ,MediaPublic FROM Media WHERE Email='" + userEmail + "'", Conn);
-                SqlDataReader reader = sqlCom.ExecuteReader();
-                
-                while (reader.Read())
+                string connString = "Server=awsmediasharedb.cijc6laeupag.us-east-2.rds.amazonaws.com,1433;Integrated Security=False;Persist Security Info=True;User ID=admin;Password=#Cmpg323;Database=MediaShareMVC_Core;Trusted_Connection=False;MultipleActiveResultSets=true";
+                using (SqlConnection Conn = new SqlConnection(connString))
                 {
-                    Media thisImage = new Media();
-                    
-                    thisImage.MediaId = (int)reader["MediaId"];
-                    thisImage.MediaTitle = (string)reader["MediaTitle"];
-                    thisImage.MediaName = (string)reader["MediaName"];
-                    thisImage.Email = (string)reader["Email"];
-                    thisImage.MediaPublic = Convert.ToBoolean(Convert.ToInt32(reader["MediaPublic"]));
-                    //thisImage.MediaLink = ;
-                    MyImages.Add(thisImage);
-                }
+                    Conn.Open();
+                    SqlCommand sqlCom = new SqlCommand("SELECT MediaId ,MediaTitle, MediaName, Email ,MediaPublic FROM Media WHERE Email='" + userEmail + "'", Conn);
+                    SqlDataReader reader = sqlCom.ExecuteReader();
 
-                Conn.Close();
+                    while (reader.Read())
+                    {
+                        Media thisImage = new Media();
+
+                        thisImage.MediaId = (int)reader["MediaId"];
+                        thisImage.MediaTitle = (string)reader["MediaTitle"];
+                        thisImage.MediaName = (string)reader["MediaName"];
+                        thisImage.Email = (string)reader["Email"];
+                        thisImage.MediaPublic = Convert.ToBoolean(Convert.ToInt32(reader["MediaPublic"]));
+                        //thisImage.MediaLink = ;
+                        MyImages.Add(thisImage);
+                    }
+
+                    Conn.Close();
+                }
+            }
+            else
+            {
+                string connString = "Server=awsmediasharedb.cijc6laeupag.us-east-2.rds.amazonaws.com,1433;Integrated Security=False;Persist Security Info=True;User ID=admin;Password=#Cmpg323;Database=MediaShareMVC_Core;Trusted_Connection=False;MultipleActiveResultSets=true";
+                using (SqlConnection Conn = new SqlConnection(connString))
+                {
+                    Conn.Open();
+                    SqlCommand sqlCom = new SqlCommand("SELECT MediaId ,MediaTitle, MediaName, Email ,MediaPublic FROM Media WHERE Email='" + userEmail + "'" + " AND MediaTitle LIKE '%" + Search +"%'", Conn);
+                    SqlDataReader reader = sqlCom.ExecuteReader();
+
+                    while (reader.Read())
+                    {
+                        Media thisImage = new Media();
+
+                        thisImage.MediaId = (int)reader["MediaId"];
+                        thisImage.MediaTitle = (string)reader["MediaTitle"];
+                        thisImage.MediaName = (string)reader["MediaName"];
+                        thisImage.Email = (string)reader["Email"];
+                        thisImage.MediaPublic = Convert.ToBoolean(Convert.ToInt32(reader["MediaPublic"]));
+                        //thisImage.MediaLink = ;
+                        MyImages.Add(thisImage);
+                    }
+
+                    Conn.Close();
+                }
             }
 
             //return View(await _context.Media.ToListAsync());
@@ -109,6 +136,7 @@ namespace MediaShareMVC_Core.Controllers
                 string path = Path.Combine(wwwRootPath + "/Image/", fileName);
 
                 Media.MediaName = fileName;
+                Media.Email = HttpContext.User.Identity.Name;
 
 
 

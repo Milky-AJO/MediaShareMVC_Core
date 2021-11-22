@@ -5,6 +5,17 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+@using (Html.BeginForm("Index", "Media", FormMethod.Get))
+{
+    //<form class="d-flex">
+    <input class="form-control me-sm-2" type="text" name="Search" placeholder="Search">
+    <br>
+    <button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
+    //</form>
+}
+
+
+<br>
 <div class="card border-primary mb-3" style="max-width: 20rem;">
     <div class="card-header">Welcome ◕⩊◕ </div>
     <div class="card-body">
@@ -50,10 +61,10 @@
             <li class="list-group-item"><a asp-action="Delete" asp-route-id="@item.MediaId">Delete</a></li>
         </ul>
         @*<div>
-            <a asp-action="Edit" asp-route-id="@item.MediaId">Edit</a> |
-            <a asp-action="Details" asp-route-id="@item.MediaId">Details</a> |
-            <a asp-action="Delete" asp-route-id="@item.MediaId">Delete</a>
-        </div>*@
+                <a asp-action="Edit" asp-route-id="@item.MediaId">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.MediaId">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.MediaId">Delete</a>
+            </div>*@
         <div class="card-footer text-muted">
             Public Status @Html.DisplayFor(modelItem => item.MediaPublic)
         </div>

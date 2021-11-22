@@ -5,6 +5,7 @@ using MediaShareMVC_Core.Areas.Identity.Data;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Logging;
 
 namespace MediaShareMVC_Core.Areas.Identity.Pages.Account.Manage
@@ -51,6 +52,8 @@ namespace MediaShareMVC_Core.Areas.Identity.Pages.Account.Manage
 
         public async Task<IActionResult> OnPostAsync()
         {
+            string userEmail = HttpContext.User.Identity.Name;
+
             var user = await _userManager.GetUserAsync(User);
             if (user == null)
             {
@@ -74,11 +77,30 @@ namespace MediaShareMVC_Core.Areas.Identity.Pages.Account.Manage
                 throw new InvalidOperationException($"Unexpected error occurred deleting user with ID '{userId}'.");
             }
 
+            try
+            {
+                using (SqlConnection con = new SqlConnection("Server=awsmediasharedb.cijc6laeupag.us-east-2.rds.amazonaws.com,1433;Integrated Security=False;Persist Security Info=True;User ID=admin;Password=#Cmpg323;Database=MediaShareMVC_Core;Trusted_Connection=False;MultipleActiveResultSets=true"))
+                {
+                    con.Open();
+                    using (SqlCommand command = new SqlCommand("DELETE FROM Media WHERE Email = '" + userEmail + "'", con))
+                    {
+                        command.ExecuteNonQuery();
+                    }
+                    con.Close();
+                }
+            }
+            catch (SystemException ex)
+            {
+                throw new InvalidOperationException(ex.Message);
+            }
+        
+
             await _signInManager.SignOutAsync();
 
             _logger.LogInformation("User with ID '{UserId}' deleted themselves.", userId);
 
             return Redirect("~/");
+
         }
     }
 }

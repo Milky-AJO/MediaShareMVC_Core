@@ -2,10 +2,13 @@
     Layout = "/Views/Shared/_Layout.cshtml";
 }
 
-<div class="row">
-    <div class="com-md-6">
-        <div class="card login-logout-tab">
-            <div class="card-header">
+<div class="alert alert-dismissible alert-primary" style="width: 55rem;">
+    <h4 class="alert-heading">The Media Share Project 💾</h4>
+    <p class="mb-0">Welcome to The Media Share Project, a social image board. In order to continue please log in or create an account.</p>
+</div>
+<br>
+        <div class="card login-logout-tab" style="width: 30rem;">
+            <div class="card-header" >
                 <ul class="nav nav-tabs card-header-tabs">
                     <li class="nav-item">
                         <a class="nav-link" href='/Identity/Account/Login'>Login</a>
@@ -17,17 +20,16 @@
             </div>
             <br>
             <div class="card-content offset-1">
-                <div class="row">
+                
                     <div class="col-md-12">
                         @RenderBody()
-
                     </div>
-                </div>
+                
                 <br>
             </div>
         </div>
-    </div>
-</div>
+    
+
 
 @section Scripts{
     @RenderSection("Scripts", required: false) 
