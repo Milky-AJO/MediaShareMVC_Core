@@ -5,37 +5,61 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Index</h1>
+<h1>personal board</h1>
 
-<p>
+<p class="text-primary">>
     <a asp-action="Create">Create New</a>
 </p>
-<table class="table">
+@*<table class="table">
     <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.MediaTitle)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.MediaName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Email)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.MediaPublic)
-            </th>
-            <th></th>
-        </tr>
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.MediaTitle)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.MediaName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Email)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.MediaPublic)
+        </th>
+        <th></th>
+    </tr>
     </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
+    <tbody>*@
+@foreach (var item in Model)
+{
+    <div class="card" style="width: 38rem;">
+        <h3 class="card-header">@Html.DisplayFor(modelItem => item.MediaTitle)</h3>
+        <img class="card-img-top" src="@Url.Content("https://awscoremvc.s3.us-east-2.amazonaws.com/Images/" + item.MediaName)" alt="Card image cap">
+        <div class="card-body">
+            <p class="card-text">Posted by @Html.DisplayFor(modelItem => item.Email)</p>
+        </div>
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item"><a asp-action="Edit" asp-route-id="@item.MediaId">Edit</a></li>
+            <li class="list-group-item"><a asp-action="Details" asp-route-id="@item.MediaId">Details</a></li>
+            <li class="list-group-item"><a asp-action="Delete" asp-route-id="@item.MediaId">Delete</a></li>
+        </ul>
+        @*<div>
+            <a asp-action="Edit" asp-route-id="@item.MediaId">Edit</a> |
+            <a asp-action="Details" asp-route-id="@item.MediaId">Details</a> |
+            <a asp-action="Delete" asp-route-id="@item.MediaId">Delete</a>
+        </div>*@
+        <div class="card-footer text-muted">
+            Public Status @Html.DisplayFor(modelItem => item.MediaPublic)
+        </div>
+    </div>
+    <br>
+
+    @*<tr>
             <td>
                 @Html.DisplayFor(modelItem => item.MediaTitle)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.MediaName)
+                <img src="@Url.Content("https://awscoremvc.s3.us-east-2.amazonaws.com/Images/" + item.MediaName)" />
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Email)
@@ -48,7 +72,10 @@
                 <a asp-action="Details" asp-route-id="@item.MediaId">Details</a> |
                 <a asp-action="Delete" asp-route-id="@item.MediaId">Delete</a>
             </td>
-        </tr>
+        </tr>*@
 }
-    </tbody>
-</table>
+@*</tbody>
+    </table>*@
+
+
+

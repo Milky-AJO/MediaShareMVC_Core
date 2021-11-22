@@ -26,11 +26,14 @@ namespace MediaShareMVC_Core.Models
         public string Email { get; set; }
 
         [Column(TypeName = "nvarchar(10)")]
-        [DisplayName("Make Image Public?")]
+        [DisplayName("Public Image")]
         public bool MediaPublic { get; set; }
         
         [NotMapped]
         [DisplayName("Upload File")]
         public IFormFile MediaFile { get; set; }
+
+        //[NotMapped]
+        //public string MediaLink { get; set; }
     }
 }

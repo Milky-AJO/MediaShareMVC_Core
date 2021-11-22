@@ -18,7 +18,7 @@ using Microsoft.IdentityModel.Protocols;
 
 namespace MediaShareMVC_Core.Controllers
 {
-    //[Authorize]
+    [Authorize]
     public class MediaController : Controller
     {
         private readonly MediaShareMVC_CoreContext _context;
@@ -45,15 +45,17 @@ namespace MediaShareMVC_Core.Controllers
                 Conn.Open();
                 SqlCommand sqlCom = new SqlCommand("SELECT MediaId ,MediaTitle, MediaName, Email ,MediaPublic FROM Media WHERE Email='" + userEmail + "'", Conn);
                 SqlDataReader reader = sqlCom.ExecuteReader();
-
+                
                 while (reader.Read())
                 {
                     Media thisImage = new Media();
+                    
                     thisImage.MediaId = (int)reader["MediaId"];
                     thisImage.MediaTitle = (string)reader["MediaTitle"];
                     thisImage.MediaName = (string)reader["MediaName"];
                     thisImage.Email = (string)reader["Email"];
                     thisImage.MediaPublic = Convert.ToBoolean(Convert.ToInt32(reader["MediaPublic"]));
+                    //thisImage.MediaLink = ;
                     MyImages.Add(thisImage);
                 }
 
@@ -122,7 +124,7 @@ namespace MediaShareMVC_Core.Controllers
                 {
                     
                     BucketName = bucketName,
-                    Key = fileName,
+                    Key = "Images/" + fileName,
                     FilePath = path,
                     ContentType = "text/plain"
                 };
